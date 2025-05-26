@@ -60,8 +60,7 @@ raton4 = UnAnimal{
     capacidades = ["destruenglonir el mundo", "hacer planes desalmados"]
 }
 
--- Punto B  
-
+-- Punto B
 modificarCoefIntelectual :: Animal -> Number -> Animal
 modificarCoefIntelectual animal nuevoCoeficiente = animal {coefIntelectualidad = nuevoCoeficiente}
 
@@ -163,6 +162,24 @@ agregarTransformacion animal transformacion
     | transformacion == PINKIFICAR = pinkificar animal
     | transformacion == SUPERPODERES = superPoderes animal
     | otherwise = animal
+
+-- Punto 5
+-- A partir de una lista de animales, una lista de capacidades y un experimento 
+-- (o una serie de transformaciones) generar reporte:
+
+-- lista de coeficientes intelectuales de animales que luego de efectuar algun experimento
+-- tenga alguna de las capacidades dada.
+reporteCoeficientes :: [Animal] -> [String] -> Experimento -> [Number]
+reporteCoeficientes animales capacidadesDadas experimento =
+  map coefIntelectualidad
+  (filter (tieneAlgunaCapacidad capacidadesDadas) (animalesTransformados experimento animales))
+
+tieneAlgunaCapacidad :: [String] -> Animal -> Bool
+tieneAlgunaCapacidad capacidadesDadas = any (`elem` capacidadesDadas) . capacidades
+
+animalesTransformados :: Experimento -> [Animal] -> [Animal]
+animalesTransformados experimento = map (hacerExperimento (listaTransformaciones experimento))
+
 
 -- Punto 6
 -- Solamente se podrían hacer experiemtos que tengan a INTELIGENCIA_SUPERIOR como transformación
